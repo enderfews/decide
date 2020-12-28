@@ -2,3 +2,6 @@ Este es un cambio a master para la practica de EGC
 
 Commit 1, cambio
 Commit 2, cambio 2
+Commit 1 ejercicio 2.1
+Commit 2 ejercicio 2.1
+
