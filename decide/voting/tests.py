@@ -208,3 +208,35 @@ class VotingTestCase(BaseTestCase):
         response = self.client.put('/voting/{}/'.format(voting.pk), data, format='json')
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), 'Voting already tallied')
+    
+    def test_Voting_toString(self):
+        v=self.create_voting()
+        self.assertEqual(str(v),"test voting")
+        self.assertEqual(str(v.question),"test question")
+        self.assertEqual(str(v.question.options.all()[0]),"option 1 (2)")
+    def test_model_ejercicio1(self):
+        q = Question(desc='Pregunta ejercicio 1')
+        q.save()
+        opt = QuestionOption(question=q, option='option 1')
+        opt.save()
+        opt2 = QuestionOption(question=q, option= 'option 2')
+        opt2.save()
+        v = Voting(name='Votacion ejercicio 1', question=q)
+        v.save()
+        vTest=Voting.objects.get(name='Votacion ejercicio 1')
+        self.assertEqual(vTest.question,v.question)
+        self.assertEqual(vTest.name,v.name)
+    
+    def test_create_voting_and_get_from_api(self):
+        self.login()
+        VotingData={
+            'name' : 'API Voting',
+            'desc' : 'Descripcion API',
+            'question' : 'Question API',
+            'question_opt' : ['Option 1', 'Option 2']
+        }
+        response=self.client.post('/voting/',VotingData,format='json')
+        self.assertEqual(response.status_code,201)
+        v=Voting.objects.get(name='API Voting')
+        self.assertEqual(v.desc,'Descripcion API')
+
