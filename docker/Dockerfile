@@ -10,7 +10,7 @@ RUN pip install ipython
 
 WORKDIR /app
 
-RUN https://github.com/Ferwalrod/decide.git
+RUN git clone https://github.com/Ferwalrod/decide.git
 RUN pip install -r requirements.txt
 
 WORKDIR /app/decide
