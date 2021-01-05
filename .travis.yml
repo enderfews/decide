@@ -1,29 +1,28 @@
 dist: xenial
-
 services:
-  - postgresql
+- postgresql
 addons:
-  postgresql: "9.4"
+  postgresql: '9.4'
 before_script:
-  - psql -U postgres -c "create user decide password 'decide'"
-  - psql -U postgres -c "create database test_decide owner decide"
-  - psql -U postgres -c "ALTER USER decide CREATEDB"
+- psql -U postgres -c "create user decide password 'decide'"
+- psql -U postgres -c "create database test_decide owner decide"
+- psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
-  - "3.6"
+- '3.6'
 install:
-  - pip install selenium
-  - pip install -r requirements.txt
-  - pip install codacy-coverage
+- pip install selenium
+- pip install -r requirements.txt
+- pip install codacy-coverage
 script:
-  - cd decide
-  - cp travis_local_settings.py local_settings.py
-  - coverage run --branch --source=. ./manage.py test mixnet --keepdb --with-xunit
-  - coverage xml
-  - python-codacy-coverage -r coverage.xml
-
+- cd decide
+- cp travis_local_settings.py local_settings.py
+- coverage run --branch --source=. ./manage.py test mixnet --keepdb --with-xunit
+- coverage xml
+- python-codacy-coverage -r coverage.xml
 deploy:
   provider: heroku
   app: ci-and-cd-practica7
   strategy: git
-  api_key: $HEROKU_AUTH_TOKEN
+  api_key:
+    secure: ocjk17s+tCLAQbOak73UT/9XfU20+LWn3mopXsz+/S69xaBW83qh9JgahkF+RV/38uFDmlUGTOiDTiKqA33hb2YdKjFmo3d9bEToA6SlH0QNXmXmsyQFqp2LxHOeEX1wq7v9pEOr0DUBPXh6o9KJdq81iXWyQKUxAVQYD9LwK4YEAWjMhxtMDcKDBPKbEQKTBw95IhQ0PSmgPPsh4HYsN0M2AGj5ke97dH7l5GZ/sjNx5UUN2oxkgHEp2RbZOOLl1PS91aRtkAIVbJt2ffST8yvmQsjW7kyrhYnCfJWfdJEg+4q448PvUlpP9ZTqqS70jurGKCsi9XBq4MdoeBDgUTJbbMtMA+RoYQHgd1os5KaneyzUHFbcNeZNS0n4YkRmr8jJJnf+vPMDR7OQ2JfN/7y6roUFaW928n3+Bdx8fb7qkir+hAXcOBwRR8NBHhYEWQwO2LphhlS2RJI6JFWQBHeKSKNBQAKbLi5XtvbZKZIgOMO9slZmQzBnx6O8CKn2DbG19WFNpLYAPy8RGYlaIBkl2gTNky2kTduJyjCEmClKQZy1iwlD2ps58Y0GKZX8/qwJNxOfQYDRSfjAMtjk/qlJmuBQxmZuROtWgk8RuLxW8vglQ4oRS3e9WR2qXQk1C5n7fKpTVlontgU6n4NUEbT+mdQv9Ha0xe64m6NIecg=
